@@ -28,3 +28,4 @@ SUPPORTED_AUDIO_FORMATS = [".wav", ".mp3", ".mp4", ".m4a", ".ogg", ".flac", ".we
 
 # Server Settings
 SERVER_NAME = os.getenv("SERVER_NAME", "0.0.0.0")
+SERVER_PORT = int(os.getenv("SERVER_PORT", os.getenv("PORT", "7860")))
