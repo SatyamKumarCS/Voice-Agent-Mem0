@@ -11,6 +11,7 @@ client = Groq(api_key=GROQ_API_KEY)
 
 
 def validate_audio(path: Path):
+    """Check if audio file exists, has a supported format, and is within size limits."""
     if not path.exists():
         raise FileNotFoundError(f"File not found: {path}")
 
@@ -22,6 +23,7 @@ def validate_audio(path: Path):
 
 
 def transcribe(audio_path: str | Path, language: str = "en") -> dict:
+    """Transcribe audio using Groq Whisper and return detailed results."""
     path = Path(audio_path)
     result = {
         "success": False,
@@ -33,7 +35,6 @@ def transcribe(audio_path: str | Path, language: str = "en") -> dict:
 
     try:
         validate_audio(path)
-
         with open(path, "rb") as f:
             resp = client.audio.transcriptions.create(
                 model=STT_MODEL,
@@ -50,7 +51,6 @@ def transcribe(audio_path: str | Path, language: str = "en") -> dict:
                 "duration": getattr(resp, "duration", None),
             }
         )
-
     except Exception as e:
         result["error"] = str(e)
 
@@ -58,7 +58,15 @@ def transcribe(audio_path: str | Path, language: str = "en") -> dict:
 
 
 def transcribe_text(audio_path: str | Path, language: str = "en") -> str:
+    """Convenience helper to get only the transcribed text string."""
     res = transcribe(audio_path, language)
     if not res["success"]:
         raise RuntimeError(res["error"])
     return res["text"]
+
+
+def transcribe_from_gradio(audio_path: str | Path) -> dict:
+    """Wrapper for Gradio audio inputs, returning a status dictionary."""
+    if not audio_path:
+        return {"success": False, "error": "No audio provided", "text": ""}
+    return transcribe(audio_path)

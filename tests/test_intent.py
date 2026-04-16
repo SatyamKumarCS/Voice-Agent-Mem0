@@ -1,4 +1,4 @@
-from src.intent import classify_intent
+from src.intent import classify_compound_intent
 
 TEST_CASES = [
     ("Create a new file called notes.txt", ["create_file"]),
@@ -14,13 +14,14 @@ def run_tests():
     passed = 0
 
     for text, expected in TEST_CASES:
-        res = classify_intent(text)
-        print(f"Input: {text or '(empty)'} -> Intent: {res['intent']}")
+        results = classify_compound_intent(text)
+        intents = [r["intent"] for r in results]
+        print(f"Input: {text or '(empty)'} -> Intents: {intents}")
 
-        if res["intent"] in expected:
+        if any(i in expected for i in intents):
             passed += 1
         else:
-            print(f"FAILED: Expected {expected}, got {res['intent']}")
+            print(f"FAILED: Expected {expected}, got {intents}")
 
     print(f"\nResults: {passed}/{len(TEST_CASES)} passed")
     assert passed == len(TEST_CASES)

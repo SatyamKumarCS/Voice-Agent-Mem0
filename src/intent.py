@@ -8,7 +8,8 @@ SUPPORTED_INTENTS = ["create_file", "write_code", "summarize_text", "general_cha
 
 SYSTEM_PROMPT = """
 You are an intent classifier for a voice-controlled AI.
-Parse the user command and return ONLY a JSON object.
+Analyze the user command and return a JSON LIST of objects.
+Detection should support multiple commands in one sentence (compound intents).
 
 Intents:
 - create_file: create new file/folder
@@ -17,27 +18,28 @@ Intents:
 - general_chat: questions, conversation
 
 Rules:
-- For file + code, use write_code.
-- Include a suggested filename with extension.
+- ALWAYS return a list of JSON objects: [{"intent": "...", "details": "...", "filename": "..."}]
+- Suggested filename must have a relevant extension.
 - Details should be concise.
 
-Format:
-{
-  "intent": "intent_name",
-  "details": "task details",
-  "filename": "suggested_name.ext"
-}
+Example Input: "Create a notes file and summarize the weather article"
+Example Output: [
+  {"intent": "create_file", "details": "notes file", "filename": "notes.txt"},
+  {"intent": "summarize_text", "details": "weather article", "filename": "summary.txt"}
+]
 """
 
 
-def classify_intent(text: str) -> dict:
+def classify_compound_intent(text: str) -> list[dict]:
+    """Classify user command into a list of intents (supporting multiple commands)."""
     if not text.strip():
-        return {
-            "intent": "general_chat",
-            "details": "Empty input",
-            "filename": "output.txt",
-            "error": "Empty input",
-        }
+        return [
+            {
+                "intent": "general_chat",
+                "details": "Empty input",
+                "filename": "output.txt",
+            }
+        ]
 
     try:
         resp = client.chat.completions.create(
@@ -50,22 +52,37 @@ def classify_intent(text: str) -> dict:
             temperature=0.1,
         )
 
-        data = json.loads(resp.choices[0].message.content)
+        # Groq's json_object mode requires a root key or it might just return the list inside an object.
+        # We'll handle both cases.
+        raw_data = json.loads(resp.choices[0].message.content)
 
-        # Simple validation
-        if data.get("intent") not in SUPPORTED_INTENTS:
-            data["intent"] = "general_chat"
+        # If the model wraps it in an object like {"intents": [...]}, extract it.
+        if isinstance(raw_data, dict):
+            if "intents" in raw_data:
+                intents = raw_data["intents"]
+            elif "intent" in raw_data:  # Single object case
+                intents = [raw_data]
+            else:  # Fallback to a single generic intent if format is weird
+                intents = [raw_data]
+        else:
+            intents = raw_data if isinstance(raw_data, list) else [raw_data]
 
-        data.setdefault("details", "No details")
-        data.setdefault("filename", "output.txt")
-        data["error"] = None
+        # Final validation and cleanup
+        validated = []
+        for i in intents:
+            if not isinstance(i, dict):
+                continue
+            if i.get("intent") not in SUPPORTED_INTENTS:
+                i["intent"] = "general_chat"
+            i.setdefault("details", "No details")
+            i.setdefault("filename", "output.txt")
+            validated.append(i)
 
-        return data
+        return (
+            validated
+            if validated
+            else [{"intent": "general_chat", "details": text, "filename": "output.txt"}]
+        )
 
-    except Exception as e:
-        return {
-            "intent": "general_chat",
-            "details": text,
-            "filename": "output.txt",
-            "error": str(e),
-        }
+    except Exception:
+        return [{"intent": "general_chat", "details": text, "filename": "output.txt"}]

@@ -18,7 +18,7 @@ repos:
     hooks:
     -   id: tests
         name: Run Intent and STT Tests
-        entry: bash -c 'PYTHON=$(if [ -d venv ]; then echo "./venv/bin/python3"; else echo "python3"; fi); $PYTHON -m tests.test_intent && $PYTHON -m tests.test_stt'
+        entry: bash -c 'PYTHON=$(if [ -d venv ]; then echo "./venv/bin/python3"; else echo "python3"; fi); $PYTHON -m tests.test_intent && $PYTHON -m tests.test_stt && $PYTHON -m tests.test_tools'
         language: system
         pass_filenames: false
         always_run: true
