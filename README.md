@@ -1,4 +1,4 @@
-# 🎙️ Voice Agent Mem0
+# Voice Agent Mem0
 
 A professional-grade voice assistant powered by **LangGraph** and **Groq**. This agent transcribes speech, identifies compound intents, and executes localized tools in a sleek, modern Gradio interface.
 
@@ -9,15 +9,15 @@ A professional-grade voice assistant powered by **LangGraph** and **Groq**. This
 
 ---
 
-## ✨ Features
-- **🧠 Compound Intent Processing**: Handles multiple commands in a single voice recording (e.g., "Summarize this and save it to a file").
-- **🛠️ Automated Toolset**: Built-in capabilities for file creation, code generation, and intelligent text summarization.
-- **⚡ Groq-Powered Performance**: Sub-second speech transcription using `whisper-large-v3` and reasoning via `llama-3.3-70b`.
-- **🎨 Premium UI**: A responsive, light-themed Gradio dashboard with a built-in file explorer and micro-animations.
+## Features
+- **Compound Intent Processing**: Handles multiple commands in a single voice recording (e.g., "Summarize this and save it to a file").
+- **Automated Toolset**: Built-in capabilities for file creation, code generation, and intelligent text summarization.
+- **Groq-Powered Performance**: Sub-second speech transcription using `whisper-large-v3` and reasoning via `llama-3.3-70b`.
+- **Premium UI**: A responsive, light-themed Gradio dashboard with a built-in file explorer and micro-animations.
 
 ---
 
-## 🌐 Deployment (Render)
+## Deployment (Render)
 
 Deploying to Render is seamless thanks to the included Blueprint configuration.
 
@@ -36,7 +36,7 @@ Deploying to Render is seamless thanks to the included Blueprint configuration.
 
 ---
 
-## 🚀 Local Installation
+## Local Installation
 
 ### 1. Prerequisites
 - Python 3.10 or higher
@@ -70,7 +70,7 @@ Then open your browser to `http://localhost:7860`.
 
 ---
 
-## 📁 Project Architecture
+## Project Architecture
 ```text
 ├── src/
 │   ├── app.py          # Main application & UI
@@ -85,7 +85,7 @@ Then open your browser to `http://localhost:7860`.
 
 ---
 
-## 🧪 Testing
+## Testing
 We maintain high reliability with a focused test suite:
 ```bash
 pytest tests/
@@ -93,5 +93,5 @@ pytest tests/
 
 ---
 
-## 📄 License
+## License
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
