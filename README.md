@@ -50,6 +50,3 @@ Access the UI at `http://localhost:7860`.
 
 ## Testing
 Run the test suite using `pytest`:
-```bash
-pytest tests/
-```
