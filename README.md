@@ -1,52 +1,97 @@
-# Voice Agent Mem0
+# 🎙️ Voice Agent Mem0
 
-A professional-grade voice assistant powered by **LangGraph** and **Groq**. This agent transcribes speech, identifies compound intents, and executes localized tools in a sleek, light-themed Gradio interface.
+A professional-grade voice assistant powered by **LangGraph** and **Groq**. This agent transcribes speech, identifies compound intents, and executes localized tools in a sleek, modern Gradio interface.
 
-## Features
-- **Compound Intent Processing**: Understands multiple commands in a single voice recording.
-- **Tool Integration**: Automatically creates files, writes code, and summarizes text.
-- **Groq-Powered**: Lightning-fast inference using `whisper-large-v3` for STT and `llama-3.3-70b` for reasoning.
-- **Clean UI**: Minimalist, responsive Gradio dashboard with output file management.
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![LangGraph](https://img.shields.io/badge/LangGraph-Stateful%20AI-orange.svg)](https://github.com/langchain-ai/langgraph)
+[![Groq](https://img.shields.io/badge/Groq-Ultra--Fast%20Inference-green.svg)](https://groq.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Quick Start
+---
+
+## ✨ Features
+- **🧠 Compound Intent Processing**: Handles multiple commands in a single voice recording (e.g., "Summarize this and save it to a file").
+- **🛠️ Automated Toolset**: Built-in capabilities for file creation, code generation, and intelligent text summarization.
+- **⚡ Groq-Powered Performance**: Sub-second speech transcription using `whisper-large-v3` and reasoning via `llama-3.3-70b`.
+- **🎨 Premium UI**: A responsive, light-themed Gradio dashboard with a built-in file explorer and micro-animations.
+
+---
+
+## 🌐 Deployment (Render)
+
+Deploying to Render is seamless thanks to the included Blueprint configuration.
+
+### 1. The Blueprint Way (Recommended)
+1. Fork this repository.
+2. Go to [Render Blueprints](https://dashboard.render.com/blueprints).
+3. Connect your fork.
+4. Set your `GROQ_API_KEY` when prompted.
+5. Click **Apply**.
+
+### 2. Manual Web Service Setup
+- **Environment**: `Python 3`
+- **Build Command**: `pip install -r requirements.txt`
+- **Start Command**: `python -m src.app`
+- **Port**: Render handles this automatically.
+
+---
+
+## 🚀 Local Installation
 
 ### 1. Prerequisites
-Ensure you have Python 3.10+ and a [Groq API Key](https://console.groq.com/).
+- Python 3.10 or higher
+- A [Groq API Key](https://console.groq.com/)
 
-### 2. Setup
+### 2. Setup & Install
 ```bash
-# Clone the repository
+# Clone and enter the repo
 git clone https://github.com/SatyamKumarCS/Voice-Agent-Mem0.git
 cd Voice-Agent-Mem0
 
-# Create virtual environment
+# Initialize virtual environment
 python -m venv venv
-source venv/bin/activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-# Install dependencies
+# Install requirements
 pip install -r requirements.txt
 ```
 
 ### 3. Configuration
-Create a `.env` file in the root directory:
+Rename `.env.example` to `.env` and add your key:
 ```env
-GROQ_API_KEY=your_api_key_here
-SERVER_NAME=0.0.0.0
-SERVER_PORT=7860
+GROQ_API_KEY=your_groq_api_key_here
 ```
 
-### 4. Run
+### 4. Run the Agent
 ```bash
 python -m src.app
 ```
-Access the UI at `http://localhost:7860`.
+Then open your browser to `http://localhost:7860`.
 
-## Project Structure
-- `src/app.py`: Main entry point & Gradio UI logic.
-- `src/intent.py`: Intent classification engine.
-- `src/tools.py`: Tool execution logic (File creation, Code gen, etc).
-- `src/stt.py`: Integration with Groq Whisper API.
-- `output/`: Generated files directory.
+---
 
-## Testing
-Run the test suite using `pytest`:
+## 📁 Project Architecture
+```text
+├── src/
+│   ├── app.py          # Main application & UI
+│   ├── intent.py       # Intent classification engine
+│   ├── tools.py        # Logic for writing code, files, etc.
+│   ├── stt.py          # Groq Whisper STT integration
+│   └── config.py       # Global settings & environment
+├── tests/              # Intent and STT validation suite
+├── output/             # Directory for generated files
+└── render.yaml         # Deployment configuration
+```
+
+---
+
+## 🧪 Testing
+We maintain high reliability with a focused test suite:
+```bash
+pytest tests/
+```
+
+---
+
+## 📄 License
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
