@@ -1,14 +1,14 @@
-# 🎙️ Voice Agent Mem0
+# Voice Agent Mem0
 
 A professional-grade voice assistant powered by **LangGraph** and **Groq**. This agent transcribes speech, identifies compound intents, and executes localized tools in a sleek, light-themed Gradio interface.
 
-## ✨ Features
+## Features
 - **Compound Intent Processing**: Understands multiple commands in a single voice recording.
 - **Tool Integration**: Automatically creates files, writes code, and summarizes text.
 - **Groq-Powered**: Lightning-fast inference using `whisper-large-v3` for STT and `llama-3.3-70b` for reasoning.
 - **Clean UI**: Minimalist, responsive Gradio dashboard with output file management.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Prerequisites
 Ensure you have Python 3.10+ and a [Groq API Key](https://console.groq.com/).
@@ -41,14 +41,14 @@ python -m src.app
 ```
 Access the UI at `http://localhost:7860`.
 
-## 📁 Project Structure
+## Project Structure
 - `src/app.py`: Main entry point & Gradio UI logic.
 - `src/intent.py`: Intent classification engine.
 - `src/tools.py`: Tool execution logic (File creation, Code gen, etc).
 - `src/stt.py`: Integration with Groq Whisper API.
 - `output/`: Generated files directory.
 
-## 🧪 Testing
+## Testing
 Run the test suite using `pytest`:
 ```bash
 pytest tests/
