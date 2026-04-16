@@ -2,6 +2,8 @@ groq
 gradio
 ollama
 python-dotenv
-langgraph 
+langgraph
 langchain-core
 gtts
+pre-commit
+ruff

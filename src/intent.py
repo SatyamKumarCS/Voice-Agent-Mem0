@@ -29,13 +29,14 @@ Format:
 }
 """
 
+
 def classify_intent(text: str) -> dict:
     if not text.strip():
         return {
             "intent": "general_chat",
             "details": "Empty input",
             "filename": "output.txt",
-            "error": "Empty input"
+            "error": "Empty input",
         }
 
     try:
@@ -43,22 +44,22 @@ def classify_intent(text: str) -> dict:
             model=INTENT_MODEL,
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": text}
+                {"role": "user", "content": text},
             ],
             response_format={"type": "json_object"},
-            temperature=0.1
+            temperature=0.1,
         )
 
         data = json.loads(resp.choices[0].message.content)
-        
+
         # Simple validation
         if data.get("intent") not in SUPPORTED_INTENTS:
             data["intent"] = "general_chat"
-        
+
         data.setdefault("details", "No details")
         data.setdefault("filename", "output.txt")
         data["error"] = None
-        
+
         return data
 
     except Exception as e:
@@ -66,5 +67,5 @@ def classify_intent(text: str) -> dict:
             "intent": "general_chat",
             "details": text,
             "filename": "output.txt",
-            "error": str(e)
+            "error": str(e),
         }
